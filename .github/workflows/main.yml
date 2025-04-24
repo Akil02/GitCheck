@@ -6,5 +6,11 @@ jobs:
      runs-on: windows-latest
      
      steps: 
-       - name: Basic run
-         run: npm run test
+      - name: Checkout code
+        uses: actions/checkout@v3  # Checkout the code to the runner
+
+      - name: Install dependencies
+        run: npm ci  # Install dependencies based on package-lock.json
+
+      - name: Run Playwright tests
+        run: npm run test  # Run the test command defined in your package.json
