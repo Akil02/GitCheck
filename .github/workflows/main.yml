@@ -26,6 +26,7 @@ jobs:
         run: npm run test  # Run the test command defined in your package.json
 
   Ubundu:
+    needs : Window
     runs-on: ubuntu-latest  # Run the job on Windows
 
     steps: 
