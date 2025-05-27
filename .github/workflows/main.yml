@@ -4,8 +4,29 @@ on:
   workflow_dispatch:  # Trigger the workflow manually
 
 jobs:
-  test:
+  Window:
     runs-on: windows-latest  # Run the job on Windows
+
+    steps: 
+      - name: Checkout code
+        uses: actions/checkout@v3  # Checkout the code so npm can access package.json
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3  # Setup Node.js environment
+        with:
+          node-version: '18'  # Specify the Node.js version (adjust if needed)
+
+      - name: Install dependencies
+        run: npm ci  # Install dependencies from package.json
+
+      - name: Install Playwright browsers
+        run: npx playwright install  # Install Playwright browsers
+
+      - name: Run Playwright tests
+        run: npm run test  # Run the test command defined in your package.json
+
+  Ubundu:
+    runs-on: ubuntu-latest  # Run the job on Windows
 
     steps: 
       - name: Checkout code
