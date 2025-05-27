@@ -1,7 +1,7 @@
 name: Playwright test
 
 on: 
-  workflow_dispatch:  # Trigger the workflow manually
+  [workflow_dispatch, push]
 
 jobs:
   Window:
