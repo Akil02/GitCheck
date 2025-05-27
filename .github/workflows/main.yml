@@ -1,7 +1,6 @@
 name: Playwright test
 
 on: 
-  workflow_dispatch:
   push:
     branches:
        -Testing
