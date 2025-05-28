@@ -23,21 +23,21 @@ jobs:
       - name: Cache npm
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: ${{ runner.os == 'Windows' && 'C:\\Users\\runneradmin\\AppData\\Roaming\\npm-cache' || '~/.npm' }}
           key: windows-npm-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             windows-npm-
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
-          path: ~/.cache/ms-playwright
+          path: ${{ runner.os == 'Windows' && 'C:\\Users\\runneradmin\\AppData\\Local\\ms-playwright' || '~/.cache/ms-playwright' }}
           key: windows-playwright-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             windows-playwright-
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install
