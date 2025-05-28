@@ -4,48 +4,81 @@ on:
   workflow_dispatch:
   push:
     branches:
-       -Testing
+      - Testing
+      - main
 
 jobs:
   Window:
-    runs-on: windows-latest  # Run the job on Windows
+    runs-on: windows-latest
 
     steps: 
       - name: Checkout code
-        uses: actions/checkout@v3  # Checkout the code so npm can access package.json
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3  # Setup Node.js environment
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Specify the Node.js version (adjust if needed)
+          node-version: '18'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: windows-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            windows-npm-
 
       - name: Install dependencies
-        run: npm ci  # Install dependencies from package.json
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: windows-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            windows-playwright-
 
       - name: Install Playwright browsers
-        run: npx playwright install  # Install Playwright browsers
+        run: npx playwright install
 
       - name: Run Playwright tests
-        run: npm run test  # Run the test command defined in your package.json
+        run: npm run test
 
-  Ubundu:
-    needs : Window
-    runs-on: ubuntu-latest  # Run the job on Windows
+  Ubuntu:
+    needs: Window
+    runs-on: ubuntu-latest
 
     steps: 
       - name: Checkout code
-        uses: actions/checkout@v3  # Checkout the code so npm can access package.json
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3  # Setup Node.js environment
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Specify the Node.js version (adjust if needed)
+          node-version: '18'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ubuntu-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ubuntu-npm-
 
       - name: Install dependencies
-        run: npm ci  # Install dependencies from package.json
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ubuntu-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ubuntu-playwright-
 
       - name: Install Playwright browsers
-        run: npx playwright install  # Install Playwright browsers
+        run: npx playwright install
 
       - name: Run Playwright tests
-        run: npm run test  # Run the test command defined in your package.json
+        run: npm run test
